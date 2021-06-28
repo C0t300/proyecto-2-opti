@@ -2,8 +2,7 @@ import numpy as np
 from random import randint
 import os, shutil
 
-def main(cantidadDeZonas = 10, nRun = 0, prints=False):
-    costo = True
+def main(cantidadDeZonas = 10, nRun = 0, costo=True, prints=False):
     costoMin = 1
     costoMax = 10
 
