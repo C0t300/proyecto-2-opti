@@ -2,16 +2,18 @@ import numpy as np
 from random import randint
 import os, shutil
 
-def main(cantidadDeZonas = 10, i = 0):
+def main(cantidadDeZonas = 10, nRun = 0, prints=False):
     costo = True
     costoMin = 1
     costoMax = 10
 
     zonas = ["z" + str(x) for x in range(cantidadDeZonas)]
-    print("Las zonas son", zonas)
+    if prints:
+        print("Las zonas son", zonas)
 
     cantidadDeAntenas = randint(1, cantidadDeZonas-1)
-    print("La cantidad de antenas randomizadas son", cantidadDeAntenas)
+    if prints:
+        print("La cantidad de antenas randomizadas son", cantidadDeAntenas)
 
     antenas = {}
     for i in range(cantidadDeAntenas):
@@ -19,7 +21,8 @@ def main(cantidadDeZonas = 10, i = 0):
         zonaAntena = np.random.choice(zonas, size=colidantes, replace=False)
         antenas[i] = (tuple(zonaAntena))
 
-    print("Antenas: ", antenas)
+    if prints:
+        print("Antenas: ", antenas)
     zonasSinAntena = []
 
     restr = []
@@ -29,7 +32,8 @@ def main(cantidadDeZonas = 10, i = 0):
             if zona in antenas[antena]:
                 antenasZona.append(antena)
         if len(antenasZona) == 0:
-            print("La zona", zona, "no tiene antenas :c")
+            if prints:
+                print("La zona", zona, "no tiene antenas :c")
             return False
             zonasSinAntena.append(zona)
         restr.append(antenasZona)
@@ -47,7 +51,8 @@ def main(cantidadDeZonas = 10, i = 0):
     # print(restr)
     # print("ya se acabo restr")
     # print(cantidadDeZonas, len(restr))
-    print("output:")
+    if prints:
+        print("output:")
     out = []
     for r in restr:
         buf = ""
@@ -61,10 +66,11 @@ def main(cantidadDeZonas = 10, i = 0):
 
     constraints = ""
     for a in out:
-        print(a)
+        if prints:
+            print(a)
         constraints += a + "\n"
 
-    fin = open("modelo_LINDO" + str(i) + ".ltx","w")
+    fin = open("modelo_LINDO" + str(nRun) + ".ltx","w")
 
     costos = {}
     objective_function = "Min "
@@ -86,7 +92,7 @@ def main(cantidadDeZonas = 10, i = 0):
 
     fin.close()
 
-    fin = open("modelo_MZ" + str(i) + ".mzn", "w")
+    fin = open("modelo_MZ" + str(nRun) + ".mzn", "w")
 
     fin.write("var int: utilidad;\n")
     for a in antenas:
@@ -121,6 +127,7 @@ except:
         try:
             if os.path.isfile(file_path) or os.path.islink(file_path):
                 os.unlink(file_path)
+                print("deleted", file_path)
             elif os.path.isdir(file_path):
                 shutil.rmtree(file_path)
         except Exception as e:
