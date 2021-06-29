@@ -89,6 +89,13 @@ def main(cantidadDeZonas = 10, nRun = 0, costo=True, prints=False):
     fin.write("\n")
     fin.write(constraints)
 
+    fin.write("\n")
+    fin.write("end")
+    fin.write("\n")
+    for a in antenas:
+        fin.write("int x" + str(a) + "\n")
+
+
     fin.close()
 
     fin = open("modelo_MZ" + str(nRun) + ".mzn", "w")
